@@ -1,0 +1,25 @@
+const express=require('express');
+const dbConnected = require('./configuration/dbconnection');
+const UserRoute= require('./router/user');
+const LocationRoute=require('./router/location');
+const HotelRoute= require('./router/hotel');
+const RatingRoute= require('./router/rating');
+const commentCount=require('./router/rating');
+require('dotenv').config();
+const app=express();
+const cors = require('cors');
+app.use(express.json());
+app.use(cors());
+const PORT=3000;
+const bodyParser = require('body-parser');
+dbConnected();
+app.use('/count',commentCount);
+app.use('/hotel',HotelRoute);
+app.use('/rating',RatingRoute);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
+app.use('/user',UserRoute);
+app.use('/location',LocationRoute);
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
